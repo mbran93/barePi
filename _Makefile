@@ -1,0 +1,26 @@
+CC = arm-none-eabi
+COPS = -Wall -O2 -nostartfiles -c -march=armv6zk -mtune=arm1176jzf-s
+DEPS = characters.c drawing.c framebuffer.c gpio.c helper.c mailbox.c memory.c
+OUTS = vectors.o characters.o drawing.o framebuffer.o gpio.o helper.o mailbox.o memory.o debug.o console.o main.o interrupts.o systemTimer.o
+OUTS_BUILD = build/vectors.o build/characters.o build/drawing.o build/framebuffer.o build/gpio.o build/mailbox.o build/memory.o build/debug.o build/console.o build/helper.o build/main.o build/interrupts.o build/systemTimer.o
+
+
+all: kernel.img
+
+%.o: %.s
+	$(CC)-as $< -o build/$@
+
+%.o: %.c
+	$(CC)-gcc $(COPS) $< -o build/$@
+	
+kernel.img: kernel.ld $(OUTS)
+	$(CC)-ld $(OUTS_BUILD) -L/usr/lib/arm-none-eabi/newlib/armv7-m/libc.a -lc -T kernel.ld -Map build/kernel.map -o build/kernel.elf
+	$(CC)-objdump -D build/kernel.elf > build/kernel.list
+	$(CC)-objcopy build/kernel.elf -O binary kernel.img
+
+clean:
+	rm -f build/*.o
+	rm -f *.img
+	rm -f build/*.list
+	rm -f build/*.map
+	rm -f build/*.elf
