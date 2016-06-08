@@ -1,0 +1,2 @@
+# barePi
+Educational Raspberry OS
