@@ -1,6 +1,7 @@
 #include "includes/systemTimer.h"
 #include "includes/bases.h"
 #include "includes/uspios.h"
+#include "includes/interrupts.h"
 
 void initTimer() {
     timer = (unsigned int *)TIMER_BASE;
@@ -37,7 +38,7 @@ void enableTimeout(unsigned int timeout, unsigned int prescaler) {
 /////////////////////////////////////////////////////////////////////////////////
 
 void MsDelay (unsigned nMilliSeconds) {
-    delayms(nMillisSeconds);
+    delayms(nMilliSeconds);
 }
 
 void usDelay (unsigned nMicroSeconds) {
@@ -50,12 +51,10 @@ unsigned StartKernelTimer (unsigned nHzDelay, TKernelTimerHandler *pHandler, voi
     
     enableTimeout(40, RPI_ARMTIMER_CTRL_23BIT | RPI_ARMTIMER_CTRL_ENABLE | RPI_ARMTIMER_CTRL_INT_ENABLE | RPI_ARMTIMER_CTRL_PRESCALE_256);
 
-    pHandler->pParam = pParam;
-    pHanlder->pContext = pContext;
-    pHandler->hTimer = 1;
-    return pHandler->hTimer;
+    pHandler(1, pParam, pContext);
+    return 1;
 }
 
 void CancelKernelTimer (unsigned hTimer) {
-    sysTimer->Control |= RPI_ARMTIMER_CTRL_DISABLE;
+    sysTime->Control |= RPI_ARMTIMER_CTRL_DISABLE;
 }

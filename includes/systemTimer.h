@@ -29,7 +29,7 @@ typedef struct {
 	volatile unsigned int FREE_RUN_CNT;
 } system_timer_t;
 
-system_timer_t *sysTime;
+volatile system_timer_t *sysTime;
 
 void initTimer();
 void initSystemTimer();

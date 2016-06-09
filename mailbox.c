@@ -67,7 +67,7 @@ int setPowerOnState(unsigned int nDeviceId) {
 	build_mailbox_request(mailbuffer);
 	
 	MailboxWrite(BUFFER_ADDRESS, 8);
-	MailboxWrite(8);
+	MailboxRead(8);
 	
 	int powerState = mailbuffer[6];
 	if(powerState != 0) return powerState;

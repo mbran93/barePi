@@ -1,6 +1,6 @@
 CC = arm-none-eabi
 COPS = -Wall -O2 -nostartfiles -ffreestanding -march=armv6zk -mtune=arm1176jzf-s
-DEPS = characters.c console.c debug.c drawing.c framebuffer.c gpio.c helper.c interrupts.c mailbox.c main.c memory.c systemTimer.c vectors.s
+DEPS =  vectors.s characters.c console.c debug.c drawing.c framebuffer.c gpio.c helper.c interrupts.c mailbox.c main.c memory.c systemTimer.c
 
 all: kernel.img
 

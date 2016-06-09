@@ -23,6 +23,7 @@ volatile unsigned int *mailbox;
 volatile unsigned int *mailbuffer;
 
 void mailboxInit();
+void mailBufferInit();
 void MailboxWrite(unsigned int, unsigned int);
 unsigned int MailboxRead(unsigned int);
 void add_mailbox_tag(volatile unsigned int* buffer, unsigned int tag, unsigned int buflen, unsigned int len, unsigned int* data);

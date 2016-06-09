@@ -4,6 +4,8 @@
 #include "includes/characters.h"
 #include "includes/types.h"
 #include "includes/uspios.h"
+#include "string.h"
+#include "includes/drawing.h"
 
 #define FLOAT_TEXT "Floats unsupported."
 
@@ -310,7 +312,7 @@ void LogPrintF(char* format, unsigned int formatLength, ...) {
 
 void LogWrite(const char *pSource, unsigned int Severity, const char *format, ...) {
 	va_list args;
-	unsigned int formatLength = strlen(format);
+	unsigned int formatLength = sizeof(format);
 	char messageBuffer[160];
 	unsigned int messageIndex, width = 0, precision = 1, characters;
 	int svalue; unsigned int value;
@@ -322,7 +324,7 @@ void LogWrite(const char *pSource, unsigned int Severity, const char *format, ..
 	messageIndex = 0;
 	opened = false;
 	
-	va_start(args, formatLength);
+	va_start(args, format);
 
 	unsigned int index;
 	for (index = 0; index < formatLength && messageIndex < sizeof(messageBuffer) - 1; index++) {
@@ -611,13 +613,13 @@ void LogWrite(const char *pSource, unsigned int Severity, const char *format, ..
 }
 
 void uspi_assertion_failed (const char *pExpr, const char *pFile, unsigned nLine) {
-	strcat(pExpr, pFile);
-	strcat(pExpr, " %d");
+	// strcat(pExpr, pFile);
+	// strcat(pExpr, " %d");
 	LogWrite("", LOG_ERROR, pExpr, nLine);
 	
 	while(1);
 }
 
 void DebugHexdump (const void *pBuffer, unsigned nBufLen, const char *pSource /* = 0 */) {
-	LOGF(pBuffer);
+	// LOGF(pBuffer);
 }
